@@ -118,7 +118,7 @@
             </form>
             <div class="info-box">
                 📅 <span id="current-date"></span><br>
-                <span id="weather">☀️ 海口市天气：晴，28°C</span><br>
+                <span id="weather">加载中...</span><br>
                 <div class="weather-select">
                     切换城市：
                     <select id="city-select" onchange="updateWeather()">
@@ -211,47 +211,88 @@
 
     <!-- 脚本 -->
     <script>
+        // 使用你提供的 OpenWeatherMap API 密钥
+        const API_KEY = "c682b42d5b9a49e68a54479cc0dc703b";
+
+        // 城市坐标映射
+        const cityCoords = {
+            "beijing": { lat: 39.9042, lon: 116.4074 },
+            "shanghai": { lat: 31.2304, lon: 121.4737 },
+            "guangzhou": { lat: 23.1291, lon: 113.2644 },
+            "shenzhen": { lat: 22.5431, lon: 114.0579 },
+            "haikou": { lat: 20.0440, lon: 110.1983 },
+            "sanya": { lat: 18.2528, lon: 109.5119 },
+            "sansha": { lat: 16.8333, lon: 112.3333 },
+            "danzhou": { lat: 19.5209, lon: 109.5807 },
+            "wenchang": { lat: 19.6157, lon: 110.7489 },
+            "qionghai": { lat: 19.2430, lon: 110.4668 },
+            "wanning": { lat: 18.7953, lon: 110.3897 },
+            "wuzhishan": { lat: 18.7751, lon: 109.5169 },
+            "dongfang": { lat: 19.1019, lon: 108.6538 },
+            "dingan": { lat: 19.6840, lon: 110.3593 },
+            "tunchang": { lat: 19.3620, lon: 110.1035 },
+            "chengmai": { lat: 19.7385, lon: 110.0076 },
+            "lingao": { lat: 19.9124, lon: 109.6908 },
+            "baisha": { lat: 19.2246, lon: 109.4526 },
+            "changjiang": { lat: 19.2600, lon: 109.0534 },
+            "ledong": { lat: 18.7476, lon: 109.1753 },
+            "lingshui": { lat: 18.5050, lon: 110.0372 },
+            "baoting": { lat: 18.6364, lon: 109.7025 },
+            "qiongzhong": { lat: 19.0353, lon: 109.8399 }
+        };
+
+        // 更新日期
         function updateDate() {
             const dateSpan = document.getElementById("current-date");
             const now = new Date();
             const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0'); // 月份从0开始，需加1
+            const month = String(now.getMonth() + 1).padStart(2, '0');
             const day = String(now.getDate()).padStart(2, '0');
             dateSpan.textContent = `今天是：${year}年${month}月${day}日`;
         }
 
+        // 获取并更新真实天气数据
         function updateWeather() {
             const citySelect = document.getElementById("city-select");
             const weatherSpan = document.getElementById("weather");
             const weatherLink = document.getElementById("weather-link");
             const city = citySelect.value;
+            const coords = cityCoords[city];
 
-            const weatherData = {
-                "beijing": "☁️ 北京天气：多云，15°C",
-                "shanghai": "🌧️ 上海天气：小雨，18°C",
-                "guangzhou": "☀️ 广州天气：晴，25°C",
-                "shenzhen": "⛅ 深圳天气：阴，23°C",
-                "haikou": "☀️ 海口市天气：晴，28°C",
-                "sanya": "☀️ 三亚市天气：晴，30°C",
-                "sansha": "⛅ 三沙市天气：多云，29°C",
-                "danzhou": "☁️ 儋州市天气：多云，27°C",
-                "wenchang": "☀️ 文昌市天气：晴，28°C",
-                "qionghai": "🌧️ 琼海市天气：小雨，26°C",
-                "wanning": "⛅ 万宁市天气：阴，27°C",
-                "wuzhishan": "☁️ 五指山市天气：多云，25°C",
-                "dongfang": "☀️ 东方市天气：晴，28°C",
-                "dingan": "⛅ 定安县天气：多云，26°C",
-                "tunchang": "☁️ 屯昌县天气：多云，25°C",
-                "chengmai": "☀️ 澄迈县天气：晴，27°C",
-                "lingao": "⛅ 临高县天气：阴，26°C",
-                "baisha": "☁️ 白沙黎族自治县天气：多云，25°C",
-                "changjiang": "☀️ 昌江黎族自治县天气：晴，27°C",
-                "ledong": "⛅ 乐东黎族自治县天气：多云，26°C",
-                "lingshui": "☀️ 陵水黎族自治县天气：晴，28°C",
-                "baoting": "🌧️ 保亭黎族苗族自治县天气：小雨，25°C",
-                "qiongzhong": "☁️ 琼中黎族苗族自治县天气：多云，24°C"
-            };
+            if (!coords) {
+                weatherSpan.textContent = "⚠️ 未知城市";
+                return;
+            }
 
+            const url = `https://api.openweathermap.org/data/2.5/weather?lat=${coords.lat}&lon=${coords.lon}&appid=${API_KEY}&units=metric&lang=zh_cn`;
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) throw new Error("天气数据获取失败");
+                    return response.json();
+                })
+                .then(data => {
+                    const temp = Math.round(data.main.temp);
+                    const description = data.weather[0].description;
+                    let icon;
+                    switch (data.weather[0].main) {
+                        case "Clear": icon = "☀️"; break;
+                        case "Clouds": icon = "☁️"; break;
+                        case "Rain": icon = "🌧️"; break;
+                        case "Thunderstorm": icon = "🌩️"; break;
+                        default: icon = "⛅"; break;
+                    }
+                    weatherSpan.textContent = `${icon} ${city}天气：${description}，${temp}°C`;
+                    weatherLink.href = `http://www.weather.com.cn/weather1d/${getCityCode(city)}.shtml`;
+                })
+                .catch(error => {
+                    weatherSpan.textContent = "⚠️ 天气数据加载失败";
+                    console.error(error);
+                });
+        }
+
+        // 获取城市对应的天气网代码
+        function getCityCode(city) {
             const cityCodes = {
                 "beijing": "101010100",
                 "shanghai": "101020100",
@@ -277,16 +318,15 @@
                 "baoting": "101310205",
                 "qiongzhong": "101310210"
             };
-
-            weatherSpan.innerHTML = weatherData[city] || "⚠️ 未知城市";
-            weatherLink.href = `http://www.weather.com.cn/weather1d/${cityCodes[city] || "101310101"}.shtml`;
+            return cityCodes[city] || "101310101"; // 默认海口
         }
 
+        // 初始化和定时更新
         window.onload = function() {
-            updateWeather();
             updateDate();
-            // 每秒更新一次日期（可选）
-            setInterval(updateDate, 1000);
+            updateWeather();
+            setInterval(updateDate, 1000); // 每秒更新日期
+            setInterval(updateWeather, 300000); // 每5分钟更新天气（避免超限）
         };
     </script>
 </body>
