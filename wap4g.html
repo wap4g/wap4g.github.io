@@ -193,9 +193,89 @@
         <!-- 在线 AI -->
         <div class="section">
             <h2>🤖 在线 AI</h2>
-            <p><a href="https://grok.xai">Grok AI 聊天</ <!-- 秋天乐了诗词网链接 -->
+            <p><a href="https://grok.xai">Grok AI 聊天</a></p>
+        </div>
+
+        <!-- 在线翻译 -->
+        <div class="section">
+            <h2>🌍 在线翻译</h2>
+            <p><a href="https://fanyi.youdao.com">有道翻译</a></p>
+        </div>
+
+        <!-- 秋天乐了诗词网链接 -->
         <div class="section">
             <h2>🍂 秋天乐了诗词网</h2>
-            <p>进入秋天乐了诗词网</p>
+            <p><a href="poetry.html">进入秋天乐了诗词网</a></p>
         </div>
     </div>
+
+    <!-- 脚本 -->
+    <script>
+        function updateWeather() {
+            const citySelect = document.getElementById("city-select");
+            const weatherSpan = document.getElementById("weather");
+            const weatherLink = document.getElementById("weather-link");
+            const city = citySelect.value;
+
+            const weatherData = {
+                "beijing": "☁️ 北京天气：多云，15°C",
+                "shanghai": "🌧️ 上海天气：小雨，18°C",
+                "guangzhou": "☀️ 广州天气：晴，25°C",
+                "shenzhen": "⛅ 深圳天气：阴，23°C",
+                "haikou": "☀️ 海口市天气：晴，28°C",
+                "sanya": "☀️ 三亚市天气：晴，30°C",
+                "sansha": "⛅ 三沙市天气：多云，29°C",
+                "danzhou": "☁️ 儋州市天气：多云，27°C",
+                "wenchang": "☀️ 文昌市天气：晴，28°C",
+                "qionghai": "🌧️ 琼海市天气：小雨，26°C",
+                "wanning": "⛅ 万宁市天气：阴，27°C",
+                "wuzhishan": "☁️ 五指山市天气：多云，25°C",
+                "dongfang": "☀️ 东方市天气：晴，28°C",
+                "dingan": "⛅ 定安县天气：多云，26°C",
+                "tunchang": "☁️ 屯昌县天气：多云，25°C",
+                "chengmai": "☀️ 澄迈县天气：晴，27°C",
+                "lingao": "⛅ 临高县天气：阴，26°C",
+                "baisha": "☁️ 白沙黎族自治县天气：多云，25°C",
+                "changjiang": "☀️ 昌江黎族自治县天气：晴，27°C",
+                "ledong": "⛅ 乐东黎族自治县天气：多云，26°C",
+                "lingshui": "☀️ 陵水黎族自治县天气：晴，28°C",
+                "baoting": "🌧️ 保亭黎族苗族自治县天气：小雨，25°C",
+                "qiongzhong": "☁️ 琼中黎族苗族自治县天气：多云，24°C"
+            };
+
+            const cityCodes = {
+                "beijing": "101010100",
+                "shanghai": "101020100",
+                "guangzhou": "101280101",
+                "shenzhen": "101280601",
+                "haikou": "101310101",
+                "sanya": "101310201",
+                "sansha": "101310230",
+                "danzhou": "101310222",
+                "wenchang": "101310212",
+                "qionghai": "101310211",
+                "wanning": "101310215",
+                "wuzhishan": "101310204",
+                "dongfang": "101310221",
+                "dingan": "101310206",
+                "tunchang": "101310207",
+                "chengmai": "101310208",
+                "lingao": "101310209",
+                "baisha": "101310224",
+                "changjiang": "101310223",
+                "ledong": "101310216",
+                "lingshui": "101310214",
+                "baoting": "101310205",
+                "qiongzhong": "101310210"
+            };
+
+            weatherSpan.innerHTML = weatherData[city] || "⚠️ 未知城市";
+            weatherLink.href = `http://www.weather.com.cn/weather1d/${cityCodes[city] || "101310101"}.shtml`;
+        }
+
+        window.onload = function() {
+            updateWeather();
+        };
+    </script>
+</body>
+</html>
