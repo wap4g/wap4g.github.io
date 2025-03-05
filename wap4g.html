@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>万事通 - 功能手机版</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            margin: 0;
+            padding: 10px;
+            font-size: 14px;
+        }
+        .container {
+            max-width: 320px;
+            margin: 0 auto;
+            background: #fff;
+            border: 2px solid #999;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 3px 3px 5px #888;
+        }
+        h1 {
+            font-size: 18px;
+            text-align: center;
+            background: #ddd;
+            padding: 5px;
+            border-radius: 3px;
+            margin: 0 0 10px 0;
+        }
+        .section {
+            margin-bottom: 15px;
+            padding: 8px;
+            background: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        .section h2 {
+            font-size: 16px;
+            margin: 0 0 5px 0;
+            color: #333;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .search-box {
+            text-align: center;
+            margin: 10px 0;
+        }
+        .search-box input {
+            width: 70%;
+            padding: 5px;
+            border: 1px solid #999;
+            border-radius: 3px;
+            box-shadow: inset 1px 1px 3px #ccc;
+        }
+        .search-box button {
+            padding: 5px 10px;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            box-shadow: 2px 2px 4px #888;
+        }
+        .info-box {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            margin-top: 5px;
+        }
+        .weather-select {
+            margin-top: 5px;
+        }
+        select {
+            padding: 3px;
+            border: 1px solid #999;
+            border-radius: 3px;
+            max-width: 150px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 万事通</h1>
+
+        <!-- 搜索引擎 -->
+        <div class="section search-box">
+            <h2>🔍 搜索</h2>
+            <form action="https://yandex.com/search/" method="get">
+                <div style="font-size: 20px; margin-bottom: 5px;">Ⓜ️🌐Ⓜ️</div>
+                <input type="text" name="text" placeholder="输入关键词">
+                <button type="submit">搜索</button>
+            </form>
+            <div class="info-box">
+                📅 今天是：2025年3月5日 (农历正月十五)<br>
+                <span id="weather">☀️ 海口市天气：晴，28°C</span><br>
+                <div class="weather-select">
+                    切换城市：
+                    <select id="city-select" onchange="updateWeather()">
+                        <option value="beijing">北京</option>
+                        <option value="shanghai">上海</option>
+                        <option value="guangzhou">广州</option>
+                        <option value="shenzhen">深圳</option>
+                        <!-- 海南省地级市 -->
+                        <option value="haikou" selected>海口市</option>
+                        <option value="sanya">三亚市</option>
+                        <option value="sansha">三沙市</option>
+                        <option value="danzhou">儋州市</option>
+                        <!-- 海南省县级市/县/自治县 -->
+                        <option value="wenchang">文昌市</option>
+                        <option value="qionghai">琼海市</option>
+                        <option value="wanning">万宁市</option>
+                        <option value="wuzhishan">五指山市</option>
+                        <option value="dongfang">东方市</option>
+                        <option value="dingan">定安县</option>
+                        <option value="tunchang">屯昌县</option>
+                        <option value="chengmai">澄迈县</option>
+                        <option value="lingao">临高县</option>
+                        <option value="baisha">白沙黎族自治县</option>
+                        <option value="changjiang">昌江黎族自治县</option>
+                        <option value="ledong">乐东黎族自治县</option>
+                        <option value="lingshui">陵水黎族自治县</option>
+                        <option value="baoting">保亭黎族苗族自治县</option>
+                        <option value="qiongzhong">琼中黎族苗族自治县</option>
+                    </select>
+                </div>
+                <a href="http://www.weather.com.cn/weather1d/101310101.shtml" id="weather-link">查看详细天气</a>
+            </div>
+        </div>
+
+        <!-- 天气预报 -->
+        <div class="section">
+            <h2>☀️ 天气预报</h2>
+            <p>输入城市查看天气：<br>
+            <input type="text" placeholder="如：海口">
+            <button>查询</button></p>
+            <p><a href="http://www.weather.com.cn">中国天气网</a></p>
+        </div>
+
+        <!-- 太阳辐射预报 -->
+        <div class="section">
+            <h2>🌞 太阳辐射</h2>
+            <p><a href="http://www.sws.ac.cn">中国空间气象台</a></p>
+        </div>
+
+        <!-- 百度热搜榜 -->
+        <div class="section">
+            <h2>🔥 百度热搜</h2>
+            <ul>
+                <li><a href="https://top.baidu.com">查看今日热搜</a></li>
+            </ul>
+        </div>
+
+        <!-- 网站导航 -->
+        <div class="section">
+            <h2>🌐 网站导航</h2>
+            <ul>
+                <li>📰 <a href="https://news.sina.cn">新浪新闻</a></li>
+                <li>🛒 <a href="https://m.taobao.com">淘宝</a></li>
+                <li>🎥 <a href="https://m.iqiyi.com">爱奇艺</a></li>
+            </ul>
+        </div>
+
+        <!-- 每日新闻速报 -->
+        <div class="section">
+            <h2>📰 每日新闻</h2>
+            <p><a href="https://m.chinanews.com">今日头条新闻</a></p>
+        </div>
+
+        <!-- 在线 AI -->
+        <div class="section">
+            <h2>🤖 在线 AI</h2>
+            <p><a href="https://grok.xai">Grok AI 聊天</a></p>
+        </div>
+
+        <!-- 在线翻译 -->
+        <div class="section">
+            <h2>🌍 在线翻译</h2>
+            <p><a href="https://fanyi.youdao.com">有道翻译</a></p>
+        </div>
+    </div>
+
+    <!-- 切换城市天气的简单脚本 -->
+    <script>
+        function updateWeather() {
+            const citySelect = document.getElementById("city-select");
+            const weatherSpan = document.getElementById("weather");
+            const weatherLink = document.getElementById("weather-link");
+            const city = citySelect.value;
+
+            // 静态示例天气数据（包含海南全省市县）
+            const weatherData = {
+                "beijing": "☁️ 北京天气：多云，15°C",
+                "shanghai": "🌧️ 上海天气：小雨，18°C",
+                "guangzhou": "☀️ 广州天气：晴，25°C",
+                "shenzhen": "⛅ 深圳天气：阴，23°C",
+                "haikou": "☀️ 海口市天气：晴，28°C",
+                "sanya": "☀️ 三亚市天气：晴，30°C",
+                "sansha": "⛅ 三沙市天气：多云，29°C",
+                "danzhou": "☁️ 儋州市天气：多云，27°C",
+                "wenchang": "☀️ 文昌市天气：晴，28°C",
+                "qionghai": "🌧️ 琼海市天气：小雨，26°C",
+                "wanning": "⛅ 万宁市天气：阴，27°C",
+                "wuzhishan": "☁️ 五指山市天气：多云，25°C",
+                "dongfang": "☀️ 东方市天气：晴，28°C",
+                "dingan": "⛅ 定安县天气：多云，26°C",
+                "tunchang": "☁️ 屯昌县天气：多云，25°C",
+                "chengmai": "☀️ 澄迈县天气：晴，27°C",
+                "lingao": "⛅ 临高县天气：阴，26°C",
+                "baisha": "☁️ 白沙黎族自治县天气：多云，25°C",
+                "changjiang": "☀️ 昌江黎族自治县天气：晴，27°C",
+                "ledong": "⛅ 乐东黎族自治县天气：多云，26°C",
+                "lingshui": "☀️ 陵水黎族自治县天气：晴，28°C",
+                "baoting": "🌧️ 保亭黎族苗族自治县天气：小雨，25°C",
+                "qiongzhong": "☁️ 琼中黎族苗族自治县天气：多云，24°C"
+            };
+
+            // 中国天气网城市代码（部分示例）
+            const cityCodes = {
+                "beijing": "101010100",
+                "shanghai": "101020100",
+                "guangzhou": "101280101",
+                "shenzhen": "101280601",
+                "haikou": "101310101",
+                "sanya": "101310201",
+                "sansha": "101310230", // 示例，可能需调整
+                "danzhou": "101310222",
+                "wenchang": "101310212",
+                "qionghai": "101310211",
+                "wanning": "101310215",
+                "wuzhishan": "101310204",
+                "dongfang": "101310221",
+                "dingan": "101310206",
+                "tunchang": "101310207",
+                "chengmai": "101310208",
+                "lingao": "101310209",
+                "baisha": "101310224",
+                "changjiang": "101310223",
+                "ledong": "101310216",
+                "lingshui": "101310214",
+                "baoting": "101310205",
+                "qiongzhong": "101310210"
+            };
+
+            // 更新天气显示
+            weatherSpan.innerHTML = weatherData[city] || "⚠️ 未知城市";
+            // 更新中国天气网链接
+            weatherLink.href = `http://www.weather.com.cn/weather1d/${cityCodes[city] || "101310101"}.shtml`;
+        }
+    </script>
+</body>
+</html>
