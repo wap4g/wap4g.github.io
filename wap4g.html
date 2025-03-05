@@ -117,7 +117,7 @@
                 <button type="submit">搜索</button>
             </form>
             <div class="info-box">
-                📅 今天是：2025年3月5日 (农历正月十五)<br>
+                📅 <span id="current-date"></span><br>
                 <span id="weather">☀️ 海口市天气：晴，28°C</span><br>
                 <div class="weather-select">
                     切换城市：
@@ -211,6 +211,15 @@
 
     <!-- 脚本 -->
     <script>
+        function updateDate() {
+            const dateSpan = document.getElementById("current-date");
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0'); // 月份从0开始，需加1
+            const day = String(now.getDate()).padStart(2, '0');
+            dateSpan.textContent = `今天是：${year}年${month}月${day}日`;
+        }
+
         function updateWeather() {
             const citySelect = document.getElementById("city-select");
             const weatherSpan = document.getElementById("weather");
@@ -275,6 +284,9 @@
 
         window.onload = function() {
             updateWeather();
+            updateDate();
+            // 每秒更新一次日期（可选）
+            setInterval(updateDate, 1000);
         };
     </script>
 </body>
