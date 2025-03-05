@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>万事通</title>
+    <style>
+        body {
+            font-family: sans-serif; /* 宋体可能不完全支持，改为默认无衬线字体 */
+            background-color: #E6F0EA; /* 单色背景，避免渐变 */
+            margin: 0;
+            padding: 5px;
+            font-size: 12px; /* 减小字体，适配小屏幕 */
+            color: #1E3A8A;
+        }
+        .container {
+            max-width: 240px; /* 适配功能手机小屏幕 */
+            margin: 0 auto;
+            background: #FFFFFF;
+            border: 2px solid #3B82F6;
+            padding: 10px;
+        }
+        h1 {
+            font-size: 16px;
+            text-align: center;
+            background: #1E3A8A;
+            color: #FFFFFF;
+            padding: 5px;
+            margin: 0 0 10px 0;
+        }
+        .section {
+            margin-bottom: 10px;
+            padding: 5px;
+            background: #FEF9C3;
+            border: 1px solid #60A5FA;
+        }
+        .section h2 {
+            font-size: 14px;
+            margin: 0 0 5px 0;
+            color: #1E3A8A;
+        }
+        a {
+            color: #7C3AED;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+            color: #EF4444;
+        }
+        .search-box {
+            text-align: center;
+        }
+        .search-box input {
+            width: 70%;
+            padding: 4px;
+            border: 1px solid #3B82F6;
+        }
+        .search-box button {
+            padding: 4px 8px;
+            background: #10B981;
+            color: #FFFFFF;
+            border: 1px solid #0A8F66;
+        }
+        .info-box {
+            font-size: 10px;
+            color: #374151;
+            text-align: center;
+            margin-top: 5px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 万事通</h1>
+
+        <!-- 搜索引擎 -->
+        <div class="section search-box">
+            <h2>🔍 搜索</h2>
+            <form action="https://yandex.com/search/" method="get">
+                <input type="text" name="text" placeholder="输入关键词">
+                <button type="submit">搜索</button>
+            </form>
+            <div class="info-box">
+                📅 <span id="current-date">加载中...</span><br>
+                <a href="https://m.chinanews.com">头条新闻热点</a>
+            </div>
+        </div>
+
+        <!-- 实时天气 -->
+        <div class="section">
+            <h2>☀️ 实时天气</h2>
+            <span id="weather">☀️ 海口市天气：晴，28°C</span><br>
+            <p><a href="http://www.weather.com.cn/weather1d/101310101.shtml">查看详细天气</a></p>
+        </div>
+
+        <!-- 太阳辐射预报 -->
+        <div class="section">
+            <h2>🌞 太阳辐射</h2>
+            <p><a href="http://www.sws.ac.cn">中国空间气象台</a></p>
+        </div>
+
+        <!-- 百度热搜榜 -->
+        <div class="section">
+            <h2>🔥 百度热搜</h2>
+            <ul>
+                <li><a href="https://top.baidu.com">查看今日热搜</a></li>
+            </ul>
+        </div>
+
+        <!-- 网站导航 -->
+        <div class="section">
+            <h2>🌐 网站导航</h2>
+            <ul>
+                <li>📰 <a href="https://news.sina.cn">新浪新闻</a></li>
+                <li>🛒 <a href="https://m.taobao.com">淘宝</a></li>
+                <li>🎥 <a href="https://m.iqiyi.com">爱奇艺</a></li>
+            </ul>
+        </div>
+
+        <!-- 每日新闻速报 -->
+        <div class="section">
+            <h2>📰 每日新闻</h2>
+            <p><a href="https://m.chinanews.com">今日头条新闻</a></p>
+        </div>
+
+        <!-- 在线 AI -->
+        <div class="section">
+            <h2>🤖 在线 AI</h2>
+            <p><a href="https://grok.xai">Grok AI 聊天</a></p>
+        </div>
+
+        <!-- 在线翻译 -->
+        <div class="section">
+            <h2>🌍 在线翻译</h2>
+            <p><a href="https://fanyi.youdao.com">有道翻译</a></p>
+        </div>
+
+        <!-- 秋天乐了诗词网链接 -->
+        <div class="section">
+            <h2>🍂 秋天乐了诗词网</h2>
+            <p><a href="https://wap4g.github.io/poetry.html">进入秋天乐了诗词网</a></p>
+        </div>
+    </div>
+
+    <!-- 脚本 -->
+    <script>
+        // 更新日期
+        function updateDate() {
+            var dateSpan = document.getElementById("current-date");
+            var now = new Date();
+            var year = now.getFullYear();
+            var month = String(now.getMonth() + 1).padStart(2, '0');
+            var day = String(now.getDate()).padStart(2, '0');
+            dateSpan.textContent = "今天是：" + year + "年" + month + "月" + day + "日";
+        }
+
+        // 初始化
+        window.onload = function() {
+            updateDate();
+            // 每分钟更新一次日期（功能手机可能不支持频繁更新）
+            setInterval(updateDate, 60000);
+        };
+    </script>
+</body>
+</html>
